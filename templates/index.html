@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
-<body>
+<body data-prediction="{% if prediction_text %}{{ prediction_text }}{% endif %}">
 
     <!-- Animated Background Elements -->
     <div class="bg-orb orb-1"></div>
@@ -196,60 +196,42 @@
         <p>© 2026 Smart Lender | Engineered by Testing & QA Team</p>
     </footer>
 
-    <!-- Result Popup Logic -->
-    {% if prediction_text %}
+    <!-- Result & Age Verification Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const resultText = "{{ prediction_text }}";
-            let isApproved = resultText.includes("Approved");
+            // Read prediction from the body data attribute
+            const resultText = document.body.getAttribute('data-prediction');
+            
+            // 1. If prediction exists, user just submitted the form. Show prediction popup and skip age check.
+            if (resultText && resultText.trim() !== "None" && resultText.trim() !== "") {
+                let isApproved = resultText.includes("Approved");
 
-            Swal.fire({
-                title: isApproved ? 'Congratulations!' : 'Application Rejected',
-                text: resultText,
-                icon: isApproved ? 'success' : 'error',
-                background: 'rgba(15, 23, 42, 0.95)',
-                color: '#fff',
-                backdrop: isApproved ? 'rgba(0,0,0,0.6) url("https://media.giphy.com/media/nVXzt7FSJlX7W/giphy.gif") center top no-repeat' : 'rgba(0,0,0,0.8)',
-                customClass: {
-                    popup: 'glass-popup',
-                    confirmButton: 'glow-button'
-                },
-                showClass: {
-                    popup: 'animate__animated animate__zoomIn'
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__zoomOut'
-                }
-            }).then(() => {
-                // Smooth scroll back to form
-                document.getElementById('predict').scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-    </script>
-    {% endif %}
+                Swal.fire({
+                    title: isApproved ? 'Congratulations!' : 'Application Rejected',
+                    text: resultText,
+                    icon: isApproved ? 'success' : 'error',
+                    background: 'rgba(15, 23, 42, 0.95)',
+                    color: '#fff',
+                    backdrop: isApproved ? 'rgba(0,0,0,0.6) url("https://media.giphy.com/media/nVXzt7FSJlX7W/giphy.gif") center top no-repeat' : 'rgba(0,0,0,0.8)',
+                    customClass: {
+                        popup: 'glass-popup',
+                        confirmButton: 'glow-button'
+                    },
+                    showClass: {
+                        popup: 'animate__animated animate__zoomIn'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__zoomOut'
+                    }
+                }).then(() => {
+                    // Smooth scroll back to form
+                    document.getElementById('predict').scrollIntoView({ behavior: 'smooth' });
+                });
+                
+                return; // Stop execution here
+            }
 
-    <!-- Scroll Animations JS -->
-    <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
-    </script>
-
-    <!-- Age Verification Safety Check -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            {% if prediction_text %}
-            // If a prediction exists, the user already verified age before submitting the form.
-            return;
-            {% endif %}
-
-            // Blur all main elements initially
+            // 2. Otherwise, this is a fresh page load. Run age verification.
             const elementsToBlur = document.querySelectorAll('.glass-nav, .hero, .predict-section, .features-section, .glass-footer, .bg-orb');
             elementsToBlur.forEach(el => el.classList.add('blur-content'));
 
@@ -295,7 +277,7 @@
                             color: '#ff4d4d',
                             allowOutsideClick: false,
                             allowEscapeKey: false,
-                            showConfirmButton: false, // Forcibly block them here forever
+                            showConfirmButton: false,
                             customClass: {
                                 popup: 'glass-popup'
                             }
@@ -327,6 +309,19 @@
                 }
             });
         });
+    </script>
+
+    <!-- Scroll Animations JS -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
     </script>
 </body>
 
