@@ -15,8 +15,10 @@ Run from project root:
 import os
 import sys
 import time
+# pyrefly: ignore [missing-import]
 import joblib
 import pandas as pd
+# pyrefly: ignore [missing-import]
 import numpy as np
 from datetime import datetime
 

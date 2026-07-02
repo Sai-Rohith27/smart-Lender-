@@ -1,5 +1,5 @@
 # Smart Lender – Testing Report
-**Date:** 2026-07-02 20:24  
+**Date:** 2026-07-02 21:47  
 **Prepared By:** Testing & QA Team  
 **Project:** Smart Lender – Loan Eligibility Prediction System  
 **Branch:** testing-documentation  
@@ -70,10 +70,10 @@ The following 10 representative inputs were selected from the 367-record test da
 
 | Metric | Target | Actual | Status |
 |--------|--------|--------|--------|
-| Avg Response Time | < 2000 ms | 23.83 ms | [PASS] |
-| Max Response Time | < 5000 ms | 68.83 ms | [PASS] |
-| 95th Percentile RT | < 3000 ms | 48.86 ms | [PASS] |
-| Throughput (req/sec) | > 1 | 41.96 | [PASS] |
+| Avg Response Time | < 2000 ms | 4.89 ms | [PASS] |
+| Max Response Time | < 5000 ms | 21.91 ms | [PASS] |
+| 95th Percentile RT | < 3000 ms | 6.45 ms | [PASS] |
+| Throughput (req/sec) | > 1 | 204.56 | [PASS] |
 | Error Rate | < 1% | 0% | [PASS] |
 
 > **Note:** Response times measured at the model inference level (`.predict()` call).  
@@ -84,7 +84,7 @@ The following 10 representative inputs were selected from the 367-record test da
 ## 6. Observations & Findings
 
 ### 6.1 Key Findings
-- The model prediction speed is extremely fast (23.83 ms average), well within all SLA targets.
+- The model prediction speed is extremely fast (4.89 ms average), well within all SLA targets.
 - The approval rate of 79.8% aligns with the training data distribution.
 - No crashes, exceptions, or runtime errors were observed during all 367 test executions.
 - Missing values in the test data (Credit_History, Self_Employed, LoanAmount) are handled gracefully
@@ -109,8 +109,8 @@ The following 10 representative inputs were selected from the 367-record test da
 ## 7. Conclusion
 
 The Smart Lender application successfully processed all **367 test cases** without a single
-failure. The model inference is highly performant with an average latency of **23.83 ms**,
-giving a throughput of **42.0 predictions/second**. The application is functionally
+failure. The model inference is highly performant with an average latency of **4.89 ms**,
+giving a throughput of **204.6 predictions/second**. The application is functionally
 correct and ready for further UI enhancements and production hardening.
 
 ---

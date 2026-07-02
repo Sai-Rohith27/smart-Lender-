@@ -1,164 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Lender</title>
-
+    <title>Smart Lender | AI Loan Prediction</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- SweetAlert2 for Premium Popups -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
-<!-- Hero Section -->
-<section class="hero">
+    <!-- Animated Background Elements -->
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
 
-    <div class="hero-content">
-
-        <h1>🏦 Smart Lender</h1>
-
-        <h2>AI-Powered Loan Eligibility Prediction</h2>
-
-        <p>
-            Welcome to Smart Lender! Predict loan approval instantly using
-            Artificial Intelligence and Machine Learning. Our system helps
-            users estimate loan eligibility quickly and efficiently.
-        </p>
-
-        <a href="#loan-form" class="hero-btn">
-            Predict Now
-        </a>
-
-    </div>
-
-</section>
-
-<div class="container">
-
-    <div class="card" id="loan-form">
-
-        <h2>Loan Eligibility Form</h2>
-
-        <p class="subtitle">
-            Enter the applicant details below.
-        </p>
-
-        <form action="/predict" method="POST">
-
-            <label>Gender</label>
-            <select name="gender">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-            </select>
-
-            <label>Married</label>
-            <select name="married">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-
-            <label>Dependents</label>
-            <input type="number" name="dependents" min="0" max="5" required>
-
-            <label>Education</label>
-            <select name="education">
-                <option value="Graduate">Graduate</option>
-                <option value="Not Graduate">Not Graduate</option>
-            </select>
-
-            <label>Self Employed</label>
-            <select name="self_employed">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-
-            <label>Applicant Income</label>
-            <input type="number" name="applicant_income" required>
-
-            <label>Coapplicant Income</label>
-            <input type="number" name="coapplicant_income" required>
-
-            <label>Loan Amount</label>
-            <input type="number" name="loan_amount" required>
-
-            <label>Loan Term</label>
-            <input type="number" name="loan_term" required>
-
-            <label>Credit History</label>
-            <select name="credit_history">
-                <option value="1">Good</option>
-                <option value="0">Bad</option>
-            </select>
-
-            <label>Property Area</label>
-            <select name="property_area">
-                <option value="Urban">Urban</option>
-                <option value="Semiurban">Semiurban</option>
-                <option value="Rural">Rural</option>
-            </select>
-
-            <button type="submit">
-                Predict Loan Eligibility
-            </button>
-
-        </form>
-
-        {% if prediction_text %}
-        <div class="result">
-            <h2>{{ prediction_text }}</h2>
+    <!-- Navigation -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <a href="#" class="logo">🏦 Smart Lender</a>
+            <div class="nav-links">
+                <a href="#hero">Home</a>
+                <a href="#predict">Predict</a>
+                <a href="#features">Features</a>
+            </div>
         </div>
-        {% endif %}
+    </nav>
 
-    </div>
-
-</div>
-
-<!-- About Section -->
-
-<section class="about">
-
-    <h2>Why Choose Smart Lender?</h2>
-
-    <div class="features">
-
-        <div class="feature-box">
-            <h3>🤖 AI Powered</h3>
-            <p>
-                Uses Machine Learning to predict loan approval based on applicant details.
-            </p>
+    <!-- Hero Section -->
+    <section id="hero" class="hero fade-in">
+        <div class="hero-content">
+            <div class="badge">✨ Powered by Machine Learning</div>
+            <h1>Instant Loan <br><span class="gradient-text">Eligibility Prediction</span></h1>
+            <p>Harness the power of Artificial Intelligence to evaluate loan applications with unprecedented speed and
+                accuracy.</p>
+            <a href="#predict" class="btn-glow">Start Prediction <span class="arrow">→</span></a>
         </div>
-
-        <div class="feature-box">
-            <h3>⚡ Fast Prediction</h3>
-            <p>
-                Get instant loan eligibility predictions within seconds.
-            </p>
+        <div class="hero-visual">
+            <div class="glass-panel floating">
+                <div class="mockup-row">
+                    <div class="dot"></div>
+                    <div class="line w-50"></div>
+                </div>
+                <div class="mockup-row">
+                    <div class="dot"></div>
+                    <div class="line w-80"></div>
+                </div>
+                <div class="mockup-row">
+                    <div class="dot"></div>
+                    <div class="line w-30"></div>
+                </div>
+                <div class="scan-line"></div>
+            </div>
         </div>
+    </section>
 
-        <div class="feature-box">
-            <h3>🔒 Secure</h3>
-            <p>
-                User information is processed securely for educational purposes.
-            </p>
+    <!-- Prediction Form Section -->
+    <section id="predict" class="predict-section fade-in">
+        <div class="container">
+            <div class="form-wrapper glass-card">
+                <div class="form-header">
+                    <h2>Applicant Details</h2>
+                    <p>Enter the required financial and personal information below.</p>
+                </div>
+
+                <form action="/predict" method="POST" class="loan-form">
+
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label>Gender</label>
+                            <select name="gender" required>
+                                <option value="" disabled selected>Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Marital Status</label>
+                            <select name="married" required>
+                                <option value="" disabled selected>Select Status</option>
+                                <option value="Yes">Married</option>
+                                <option value="No">Single</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Dependents</label>
+                            <select name="dependents" required>
+                                <option value="" disabled selected>No. of Dependents</option>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3+">3 or more</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Education</label>
+                            <select name="education" required>
+                                <option value="" disabled selected>Select Education</option>
+                                <option value="Graduate">Graduate</option>
+                                <option value="Not Graduate">Not Graduate</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Self Employed</label>
+                            <select name="self_employed" required>
+                                <option value="" disabled selected>Select Status</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Applicant Income (₹)</label>
+                            <input type="number" name="applicant_income" placeholder="e.g. 50000" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Coapplicant Income (₹)</label>
+                            <input type="number" name="coapplicant_income" placeholder="e.g. 0" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Loan Amount (k₹)</label>
+                            <input type="number" name="loan_amount" placeholder="e.g. 150" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Loan Term (Days)</label>
+                            <select name="loan_term" required>
+                                <option value="360" selected>360 (Default)</option>
+                                <option value="180">180</option>
+                                <option value="480">480</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Credit History</label>
+                            <select name="credit_history" required>
+                                <option value="" disabled selected>Select Credit History</option>
+                                <option value="1">Good (1.0)</option>
+                                <option value="0">Bad (0.0)</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group full-width">
+                            <label>Property Area</label>
+                            <select name="property_area" required>
+                                <option value="" disabled selected>Select Area Type</option>
+                                <option value="Urban">Urban</option>
+                                <option value="Semiurban">Semiurban</option>
+                                <option value="Rural">Rural</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <span>Analyze Eligibility</span>
+                        <div class="btn-bg"></div>
+                    </button>
+                </form>
+            </div>
         </div>
+    </section>
 
-    </div>
+    <!-- Features Section -->
+    <section id="features" class="features-section fade-in">
+        <h2 class="section-title">Why Smart Lender?</h2>
+        <div class="features-grid">
+            <div class="feature-card glass-card">
+                <div class="icon">⚡</div>
+                <h3>Real-Time Processing</h3>
+                <p>Advanced ML models deliver sub-50ms inference times.</p>
+            </div>
+            <div class="feature-card glass-card">
+                <div class="icon">🎯</div>
+                <h3>High Accuracy</h3>
+                <p>82.1% accuracy utilizing Random Forest ensembles.</p>
+            </div>
+            <div class="feature-card glass-card">
+                <div class="icon">🔒</div>
+                <h3>Secure & Private</h3>
+                <p>All data is processed ephemerally and securely.</p>
+            </div>
+        </div>
+    </section>
 
-</section>
+    <footer class="glass-footer">
+        <p>© 2026 Smart Lender | Engineered by Testing & QA Team</p>
+    </footer>
 
-<footer>
+    <!-- Result Popup Logic -->
+    {% if prediction_text %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const resultText = "{{ prediction_text }}";
+            let isApproved = resultText.includes("Approved");
 
-    <h3>🏦 Smart Lender</h3>
+            Swal.fire({
+                title: isApproved ? 'Congratulations!' : 'Application Rejected',
+                text: resultText,
+                icon: isApproved ? 'success' : 'error',
+                background: 'rgba(15, 23, 42, 0.95)',
+                color: '#fff',
+                backdrop: isApproved ? 'rgba(0,0,0,0.6) url("https://media.giphy.com/media/nVXzt7FSJlX7W/giphy.gif") center top no-repeat' : 'rgba(0,0,0,0.8)',
+                customClass: {
+                    popup: 'glass-popup',
+                    confirmButton: 'glow-button'
+                },
+                showClass: {
+                    popup: 'animate__animated animate__zoomIn'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__zoomOut'
+                }
+            }).then(() => {
+                // Smooth scroll back to form
+                document.getElementById('predict').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+    {% endif %}
 
-    <p>
-        AI Powered Loan Eligibility Prediction using Python, Flask & Machine Learning
-    </p>
+    <!-- Scroll Animations JS -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
 
-    <p>
-        © 2026 Smart Lender Team
-    </p>
-
-</footer>
-
+        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+    </script>
 </body>
+
 </html>
