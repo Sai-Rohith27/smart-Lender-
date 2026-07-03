@@ -6,60 +6,243 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Lender | AI Loan Prediction</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- SweetAlert2 for Premium Popups -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body data-prediction="{% if prediction_text %}{{ prediction_text }}{% endif %}">
 
-    <!-- Animated Background Elements -->
-    <div class="bg-orb orb-1"></div>
-    <div class="bg-orb orb-2"></div>
-
     <!-- Navigation -->
-    <nav class="glass-nav">
+    <nav class="nav-header">
         <div class="nav-container">
-            <a href="#" class="logo">🏦 Smart Lender</a>
+            <a href="#" class="logo">
+                <div class="logo-icon"><i class="ph-fill ph-chart-line-up"></i></div>
+                SmartLender
+            </a>
             <div class="nav-links">
-                <a href="#hero">Home</a>
-                <a href="#predict">Predict</a>
+                <a href="#" class="active">Home</a>
+                <a href="#how-it-works">How It Works</a>
                 <a href="#features">Features</a>
+                <a href="#predict">Apply Now</a>
+                <a href="#team">Team</a>
+                <a href="#faq">FAQ</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <button class="icon-btn"><i class="ph-fill ph-gear-six"></i></button>
+                <a href="#predict" class="btn-primary">Check Eligibility <i class="ph ph-arrow-right"></i></a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="hero" class="hero fade-in">
+    <section class="hero-section">
+        
         <div class="hero-content">
-            <div class="badge">✨ Powered by Machine Learning</div>
-            <h1>Instant Loan <br><span class="gradient-text">Eligibility Prediction</span></h1>
-            <p>Harness the power of Artificial Intelligence to evaluate loan applications with unprecedented speed and
-                accuracy.</p>
-            <a href="#predict" class="btn-glow">Start Prediction <span class="arrow">→</span></a>
-        </div>
-        <div class="hero-visual">
-            <div class="glass-panel floating">
-                <div class="mockup-row">
-                    <div class="dot"></div>
-                    <div class="line w-50"></div>
+            <div class="badge">
+                AI-Powered Loan Intelligence
+            </div>
+            
+            <h1>Smarter Lending<br>Powered by <span class="text-green">ML</span></h1>
+            
+            <p class="hero-subtext">
+                Stop guessing. Get a transparent, data-driven loan eligibility<br>
+                decision in under 10 seconds — backed by machine learning<br>
+                trained on thousands of real applications.
+            </p>
+            
+            <div class="hero-cta">
+                <a href="#predict" class="btn-primary large"><i class="ph-fill ph-lightning"></i> Check My Eligibility</a>
+                <a href="#how-it-works" class="btn-outline large">See How It Works <i class="ph-fill ph-play-circle"></i></a>
+            </div>
+
+            <!-- Floating Mockup Card -->
+            <div class="mockup-card">
+                <div class="mockup-header">
+                    <span class="mockup-title"><i class="ph-fill ph-asterisk"></i> Loan Application #8842</span>
+                    <span class="mockup-status">Approved</span>
                 </div>
-                <div class="mockup-row">
-                    <div class="dot"></div>
-                    <div class="line w-80"></div>
+                <div class="mockup-stats">
+                    <div class="stat-col">
+                        <span class="stat-value">$45,000</span>
+                        <span class="stat-label">Loan Amount</span>
+                    </div>
+                    <div class="stat-col">
+                        <span class="stat-value">360 mo</span>
+                        <span class="stat-label">Term</span>
+                    </div>
+                    <div class="stat-col">
+                        <span class="stat-value">97.3%</span>
+                        <span class="stat-label">Confidence</span>
+                    </div>
                 </div>
-                <div class="mockup-row">
-                    <div class="dot"></div>
-                    <div class="line w-30"></div>
+                <div class="progress-track">
+                    <div class="progress-fill"></div>
                 </div>
-                <div class="scan-line"></div>
             </div>
         </div>
     </section>
 
-    <!-- Prediction Form Section -->
-    <section id="predict" class="predict-section fade-in">
+    <!-- Statistics Row -->
+    <section class="stats-row">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-icon bg-green-dim"><i class="ph-fill ph-users-three"></i></div>
+                <div class="stat-info">
+                    <h4>12,500+</h4>
+                    <p>Applications Processed</p>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon bg-purple-dim"><i class="ph-fill ph-target"></i></div>
+                <div class="stat-info">
+                    <h4>94%</h4>
+                    <p>Prediction Accuracy</p>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon bg-orange-dim"><i class="ph-fill ph-clock-countdown"></i></div>
+                <div class="stat-info">
+                    <h4>8s</h4>
+                    <p>Average Decision Time</p>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon bg-teal-dim"><i class="ph-fill ph-shield-check"></i></div>
+                <div class="stat-info">
+                    <h4>100%</h4>
+                    <p>Secure & Private</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="process-section">
+        <div class="section-header center">
+            <div class="badge small">PROCESS</div>
+            <h2>How Smart Lender Works</h2>
+            <p>From application to answer in three simple steps. No paperwork,<br>no waiting rooms.</p>
+        </div>
+
+        <div class="timeline-container">
+            <!-- Connecting Line -->
+            <div class="timeline-line">
+                <div class="timeline-progress"></div>
+            </div>
+
+            <div class="timeline-steps">
+                <!-- Step 1 -->
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <div class="card-content">
+                        <div class="icon-box bg-green"><i class="ph-fill ph-file-text"></i></div>
+                        <h3>Enter Your Details</h3>
+                        <p>Fill out a simple, secure form with your income, property details, and credit history. It takes less than 3 minutes.</p>
+                        <ul class="feature-list">
+                            <li><i class="ph-bold ph-check text-green"></i> Personal & financial info</li>
+                            <li><i class="ph-bold ph-check text-green"></i> Loan amount & term</li>
+                            <li><i class="ph-bold ph-check text-green"></i> Property area selection</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-card">
+                    <div class="step-number active">02</div>
+                    <div class="card-content">
+                        <div class="icon-box bg-purple"><i class="ph-fill ph-cpu"></i></div>
+                        <h3>ML Model Analyzes</h3>
+                        <p>Our trained machine learning model processes your data against patterns from thousands of historical loan decisions.</p>
+                        <ul class="feature-list">
+                            <li><i class="ph-bold ph-check text-green"></i> Random Forest algorithm</li>
+                            <li><i class="ph-bold ph-check text-green"></i> 10+ datapoint features</li>
+                            <li><i class="ph-bold ph-check text-green"></i> Real-time computation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-card">
+                    <div class="step-number">03</div>
+                    <div class="card-content">
+                        <div class="icon-box bg-orange"><i class="ph-fill ph-chart-bar"></i></div>
+                        <h3>Get Your Result</h3>
+                        <p>Receive a clear, visual decision card showing your approval status with a confidence score and key factors.</p>
+                        <ul class="feature-list">
+                            <li><i class="ph-bold ph-check text-green"></i> Instant approval/denial</li>
+                            <li><i class="ph-bold ph-check text-green"></i> Confidence percentage</li>
+                            <li><i class="ph-bold ph-check text-green"></i> Key decision factors</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-grid-section">
+        <div class="section-header center">
+            <h2>Built for Trust & Speed</h2>
+            <p>Every design decision prioritizes fairness, accuracy, and user<br>experience.</p>
+        </div>
+
+        <div class="bento-grid">
+            <!-- Advanced ML Engine -->
+            <div class="bento-card wide">
+                <div class="icon-box bg-green"><i class="ph-fill ph-brain"></i></div>
+                <h3>Advanced ML Engine</h3>
+                <p>Powered by scikit-learn's Random Forest classifier, trained and cross-validated on real loan datasets to deliver reliable predictions.</p>
+                <div class="accuracy-score">
+                    <span class="score text-green">94.2%</span>
+                    <span class="label">Test Accuracy</span>
+                </div>
+            </div>
+
+            <!-- Privacy First -->
+            <div class="bento-card">
+                <div class="icon-box bg-purple"><i class="ph-fill ph-lock-key"></i></div>
+                <h3>Privacy First</h3>
+                <p>Your data is processed in-session and never stored. We take privacy seriously.</p>
+            </div>
+
+            <!-- Instant Results -->
+            <div class="bento-card">
+                <div class="icon-box bg-orange"><i class="ph-fill ph-lightning"></i></div>
+                <h3>Instant Results</h3>
+                <p>Decisions delivered in under 10 seconds — no waiting for a loan officer callback.</p>
+            </div>
+
+            <!-- Unbiased Decisions -->
+            <div class="bento-card">
+                <div class="icon-box bg-teal"><i class="ph-fill ph-scales"></i></div>
+                <h3>Unbiased Decisions</h3>
+                <p>ML models eliminate subjective bias, evaluating every application on data-driven merit alone.</p>
+            </div>
+
+            <!-- Transparent Scoring -->
+            <div class="bento-card wide">
+                <div class="icon-box bg-red"><i class="ph-fill ph-magnifying-glass"></i></div>
+                <h3>Transparent Scoring</h3>
+                <p>We don't give you a black-box answer. Each result includes a confidence score and highlights the factors that influenced the decision — so you understand why.</p>
+            </div>
+
+            <!-- Any Device -->
+            <div class="bento-card">
+                <div class="icon-box bg-blue"><i class="ph-fill ph-device-mobile"></i></div>
+                <h3>Any Device</h3>
+                <p>Fully responsive — apply from your phone, tablet, or desktop effortlessly.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prediction Form Section (Retained from original) -->
+    <section id="predict" class="predict-section">
         <div class="container">
             <div class="form-wrapper glass-card">
                 <div class="form-header">
@@ -161,61 +344,313 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="submit-btn">
-                        <span>Analyze Eligibility</span>
-                        <div class="btn-bg"></div>
+                    <button type="submit" class="submit-btn btn-primary large" style="width: 100%; margin-top: 30px;">
+                        Analyze Eligibility
                     </button>
                 </form>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features" class="features-section fade-in">
-        <h2 class="section-title">Why Smart Lender?</h2>
-        <div class="features-grid">
-            <div class="feature-card glass-card">
-                <div class="icon">⚡</div>
-                <h3>Real-Time Processing</h3>
-                <p>Advanced ML models deliver sub-50ms inference times.</p>
+    <!-- Tech Stack Section -->
+    <section class="tech-stack-section">
+        <div class="section-header center">
+            <div class="badge small">UNDER THE HOOD</div>
+            <h2>Built With Modern Technology</h2>
+            <p>A robust stack ensuring speed, accuracy, and reliability.</p>
+        </div>
+        
+        <div class="tech-grid">
+            <div class="tech-card">
+                <div class="icon-box bg-blue-dim"><i class="ph-fill ph-code"></i></div>
+                <h4>Python</h4>
+                <p>Core backend language for ML pipeline and API</p>
             </div>
-            <div class="feature-card glass-card">
-                <div class="icon">🎯</div>
-                <h3>High Accuracy</h3>
-                <p>82.1% accuracy utilizing Random Forest ensembles.</p>
+            <div class="tech-card">
+                <div class="icon-box bg-green-dim"><i class="ph-fill ph-flask"></i></div>
+                <h4>Flask</h4>
+                <p>Lightweight, fast web framework serving the API</p>
             </div>
-            <div class="feature-card glass-card">
-                <div class="icon">🔒</div>
-                <h3>Secure & Private</h3>
-                <p>All data is processed ephemerally and securely.</p>
+            <div class="tech-card">
+                <div class="icon-box bg-purple-dim"><i class="ph-fill ph-robot"></i></div>
+                <h4>Scikit-learn</h4>
+                <p>Random Forest classifier for loan predictions</p>
+            </div>
+            <div class="tech-card">
+                <div class="icon-box bg-orange-dim"><i class="ph-fill ph-table"></i></div>
+                <h4>Pandas</h4>
+                <p>Data wrangling and feature engineering</p>
+            </div>
+            <div class="tech-card">
+                <div class="icon-box bg-red-dim"><i class="ph-fill ph-calculator"></i></div>
+                <h4>NumPy</h4>
+                <p>Numerical computation and data processing</p>
+            </div>
+            <div class="tech-card">
+                <div class="icon-box bg-teal-dim"><i class="ph-fill ph-brackets-angle"></i></div>
+                <h4>Jinja2</h4>
+                <p>Templating engine for dynamic HTML rendering</p>
             </div>
         </div>
     </section>
 
-    <footer class="glass-footer">
-        <p>© 2026 Smart Lender | Engineered by Testing & QA Team</p>
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section">
+        <div class="section-header center">
+            <div class="badge small">FAQ</div>
+            <h2>Frequently Asked Questions</h2>
+            <p>Everything you need to know about the prediction model.</p>
+        </div>
+        <div class="container" style="max-width: 800px;">
+            <div class="faq-accordion">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>How accurate is the loan prediction?</span>
+                        <i class="ph ph-plus-circle"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Our model has been rigorously cross-validated on thousands of historical loan applications and achieves a test accuracy of 94.2%. However, this is a predictive tool and actual loan decisions remain at the discretion of the lender.</p>
+                    </div>
+                </div>
+                <!-- FAQ Item 2 -->
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Is my data stored or shared?</span>
+                        <i class="ph ph-plus-circle"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>No. Your data is processed entirely in-session for the sole purpose of generating the prediction. We do not store, log, or sell your personal or financial information.</p>
+                    </div>
+                </div>
+                <!-- FAQ Item 3 -->
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What ML algorithm is used?</span>
+                        <i class="ph ph-plus-circle"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We use an ensemble learning method called a Random Forest Classifier, provided by the Scikit-learn library. This model builds multiple decision trees and merges them together for a more accurate and stable prediction.</p>
+                    </div>
+                </div>
+                <!-- FAQ Item 4 -->
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Can I use this to apply for an actual loan?</span>
+                        <i class="ph ph-plus-circle"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>This platform is designed for educational and demonstration purposes. It simulates a loan approval process based on historical data patterns but does not process actual financial transactions or issue loans.</p>
+                    </div>
+                </div>
+                <!-- FAQ Item 5 (Active in screenshot) -->
+                <div class="faq-item active">
+                    <button class="faq-question">
+                        <span>What factors influence the prediction?</span>
+                        <i class="ph ph-plus-circle"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>The model weighs multiple features: credit history (highest weight), applicant and co-applicant income, loan amount, loan term, education level, employment type, number of dependents, marital status, gender, and property area.</p>
+                    </div>
+                </div>
+                <!-- FAQ Item 6 -->
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Does it work on mobile devices?</span>
+                        <i class="ph ph-plus-circle"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, the entire interface is fully responsive and designed to work flawlessly across desktop, tablet, and mobile devices.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="team-section">
+        <div class="section-header center">
+            <div class="badge small">THE PEOPLE</div>
+            <h2>Meet the Team</h2>
+            <p>Four engineers who turned a machine learning idea into a real<br>product.</p>
+        </div>
+        
+        <div class="team-grid">
+            <!-- Member 1 -->
+            <div class="team-card">
+                <div class="avatar bg-blue-dim"><i class="ph-fill ph-user"></i></div>
+                <h4>Venkata SaiRohith</h4>
+                <div class="role-badge bg-green">QA & UI DEVELOPER</div>
+                <p>Led quality assurance testing and contributed to frontend UI modifications and design.</p>
+                <div class="social-links">
+                    <a href="#"><i class="ph ph-github-logo"></i></a>
+                    <a href="#"><i class="ph ph-linkedin-logo"></i></a>
+                </div>
+            </div>
+            <!-- Member 2 -->
+            <div class="team-card">
+                <div class="avatar bg-purple-dim"><i class="ph-fill ph-user"></i></div>
+                <h4>Venkata Darshini</h4>
+                <div class="role-badge bg-green">TECHNICAL WRITER</div>
+                <p>Authored comprehensive project documentation, architecture diagrams, and testing reports.</p>
+                <div class="social-links">
+                    <a href="#"><i class="ph ph-github-logo"></i></a>
+                    <a href="#"><i class="ph ph-linkedin-logo"></i></a>
+                </div>
+            </div>
+            <!-- Member 3 -->
+            <div class="team-card">
+                <div class="avatar bg-orange-dim"><i class="ph-fill ph-user"></i></div>
+                <h4>Pushpa Sree</h4>
+                <div class="role-badge bg-green">BACKEND DEVELOPER</div>
+                <p>Built the Flask API, model integration layer, and server-side prediction pipeline.</p>
+                <div class="social-links">
+                    <a href="#"><i class="ph ph-github-logo"></i></a>
+                    <a href="#"><i class="ph ph-linkedin-logo"></i></a>
+                </div>
+            </div>
+            <!-- Member 4 -->
+            <div class="team-card">
+                <div class="avatar bg-teal-dim"><i class="ph-fill ph-user"></i></div>
+                <h4>Vikyath Reddy</h4>
+                <div class="role-badge bg-green">FRONTEND DEVELOPER</div>
+                <p>Crafted the UI — responsive layout, animations, dark mode, and the interactive form experience.</p>
+                <div class="social-links">
+                    <a href="#"><i class="ph ph-github-logo"></i></a>
+                    <a href="#"><i class="ph ph-linkedin-logo"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="badge small" style="margin-bottom: 16px;">CONTACT</div>
+                <h2>Get in Touch</h2>
+                <p style="color: var(--text-muted); margin-bottom: 40px; font-size: 1.1rem;">Have questions about the model, the technology, or how it works?<br>Reach out — we'd love to hear from you.</p>
+                
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <div class="icon-box bg-green-dim"><i class="ph-fill ph-envelope-simple"></i></div>
+                        <div>
+                            <span class="method-label">EMAIL</span>
+                            <a href="mailto:hello@smartlender.ai" class="method-value">hello@smartlender.ai</a>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="icon-box bg-green-dim"><i class="ph-fill ph-github-logo"></i></div>
+                        <div>
+                            <span class="method-label">GITHUB</span>
+                            <a href="#" class="method-value">github.com/smartlender</a>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="icon-box bg-green-dim"><i class="ph-fill ph-linkedin-logo"></i></div>
+                        <div>
+                            <span class="method-label">LINKEDIN</span>
+                            <a href="#" class="method-value">linkedin.com/company/smartlender</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-form-wrapper glass-card">
+                <h3>Send a Message</h3>
+                <form class="contact-form" action="#" onsubmit="event.preventDefault();">
+                    <div class="input-group">
+                        <label>Name</label>
+                        <input type="text" placeholder="Your full name">
+                    </div>
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="you@example.com">
+                    </div>
+                    <div class="input-group">
+                        <label>Message</label>
+                        <textarea rows="4" placeholder="What's on your mind?"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary large" style="width: 100%; margin-top: 10px;">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Large Footer -->
+    <footer class="large-footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="logo" style="margin-bottom: 16px;">
+                    <div class="logo-icon"><i class="ph-fill ph-chart-line-up"></i></div>
+                    SmartLender
+                </a>
+                <p>Intelligent, fair, and transparent loan eligibility<br>predictions powered by machine learning.</p>
+                <div class="social-links" style="margin-top: 24px;">
+                    <button class="icon-btn-border"><i class="ph-fill ph-github-logo"></i></button>
+                    <button class="icon-btn-border"><i class="ph-fill ph-twitter-logo"></i></button>
+                    <button class="icon-btn-border"><i class="ph-fill ph-x-logo"></i></button>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>PRODUCT</h4>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#features">Features</a>
+                <a href="#predict">Apply Now</a>
+                <a href="#faq">FAQ</a>
+            </div>
+            
+            <div class="footer-links">
+                <h4>TECHNOLOGY</h4>
+                <a href="#">Python & Flask</a>
+                <a href="#">Scikit-learn</a>
+                <a href="#">Random Forest</a>
+                <a href="#">Model Training</a>
+            </div>
+            
+            <div class="footer-links">
+                <h4>LEGAL</h4>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Use</a>
+                <a href="#">Disclaimer</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2026 Smart Lender. Built for educational purposes. Not a licensed financial service.</p>
+            <p>Made with <i class="ph-fill ph-heart" style="color: var(--text-muted); margin: 0 4px;"></i> and machine learning.</p>
+        </div>
     </footer>
 
-    <!-- Result & Age Verification Logic -->
+    <!-- Result Popup Logic -->
     <script>
+        // Prevent form resubmission dialog on refresh
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             // Read prediction from the body data attribute
             const resultText = document.body.getAttribute('data-prediction');
             
-            // 1. If prediction exists, user just submitted the form. Show prediction popup and skip age check.
+            // If prediction exists, user just submitted the form. Show prediction popup.
             if (resultText && resultText.trim() !== "None" && resultText.trim() !== "") {
+                // Remove the attribute so it doesn't fire again if the DOM is cached
+                document.body.removeAttribute('data-prediction');
+                
                 let isApproved = resultText.includes("Approved");
 
                 Swal.fire({
                     title: isApproved ? 'Congratulations!' : 'Application Rejected',
                     text: resultText,
                     icon: isApproved ? 'success' : 'error',
-                    background: 'rgba(15, 23, 42, 0.95)',
+                    background: '#1a1d24',
                     color: '#fff',
                     backdrop: isApproved ? 'rgba(0,0,0,0.6) url("https://media.giphy.com/media/nVXzt7FSJlX7W/giphy.gif") center top no-repeat' : 'rgba(0,0,0,0.8)',
                     customClass: {
-                        popup: 'glass-popup',
-                        confirmButton: 'glow-button'
+                        popup: 'bento-card',
+                        confirmButton: 'btn-primary'
                     },
                     showClass: {
                         popup: 'animate__animated animate__zoomIn'
@@ -227,101 +662,32 @@
                     // Smooth scroll back to form
                     document.getElementById('predict').scrollIntoView({ behavior: 'smooth' });
                 });
-                
-                return; // Stop execution here
-            }
+            } // Restore missing brace
 
-            // 2. Otherwise, this is a fresh page load. Run age verification.
-            const elementsToBlur = document.querySelectorAll('.glass-nav, .hero, .predict-section, .features-section, .glass-footer, .bg-orb');
-            elementsToBlur.forEach(el => el.classList.add('blur-content'));
+            // FAQ Accordion Logic
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const questionBtn = item.querySelector('.faq-question');
+                questionBtn.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    
+                    // Close all
+                    faqItems.forEach(faq => {
+                        faq.classList.remove('active');
+                        faq.querySelector('.ph-minus-circle')?.classList.replace('ph-minus-circle', 'ph-plus-circle');
+                    });
 
-            Swal.fire({
-                title: '🛑 SAFETY ALERT 🛑',
-                text: 'This website is strictly for individuals aged 18 and older. Please enter your age to continue.',
-                input: 'number',
-                inputAttributes: {
-                    min: 1,
-                    max: 120,
-                    step: 1
-                },
-                icon: 'warning',
-                background: 'rgba(15, 23, 42, 0.95)',
-                color: '#fff',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                confirmButtonText: 'Verify Age',
-                customClass: {
-                    popup: 'glass-popup',
-                    confirmButton: 'glow-button'
-                },
-                preConfirm: (age) => {
-                    if (!age) {
-                        Swal.showValidationMessage('Please enter your age');
+                    // If it wasn't active, open it
+                    if (!isActive) {
+                        item.classList.add('active');
+                        const icon = item.querySelector('.ph-plus-circle');
+                        if (icon) {
+                            icon.classList.replace('ph-plus-circle', 'ph-minus-circle');
+                        }
                     }
-                    return age;
-                }
-            }).then((result) => {
-                if (result.value) {
-                    const age = parseInt(result.value);
-                    if (age < 18) {
-                        // User is underage - Red Alert!
-                        document.body.classList.add('red-alert-mode');
-                        // Hide content completely to enforce safety
-                        elementsToBlur.forEach(el => el.style.display = 'none');
-
-                        Swal.fire({
-                            title: '🚨 EMERGENCY ALERT 🚨',
-                            html: '<b>AGE VERIFICATION FAILED!</b><br><br>You must be 18+ to access loan services. Access Denied.',
-                            icon: 'error',
-                            background: '#2a0000',
-                            color: '#ff4d4d',
-                            allowOutsideClick: false,
-                            allowEscapeKey: false,
-                            showConfirmButton: false,
-                            customClass: {
-                                popup: 'glass-popup'
-                            }
-                        });
-                    } else {
-                        // User is 18+ - Welcome!
-                        document.body.classList.add('green-welcome-mode');
-                        
-                        Swal.fire({
-                            title: '✅ Access Granted',
-                            text: 'You are welcome! Verification successful.',
-                            icon: 'success',
-                            background: 'rgba(15, 23, 42, 0.95)',
-                            color: '#00ff00',
-                            timer: 2500,
-                            showConfirmButton: false,
-                            customClass: {
-                                popup: 'glass-popup'
-                            }
-                        }).then(() => {
-                            // Unblur site
-                            elementsToBlur.forEach(el => el.classList.remove('blur-content'));
-                            // Remove the green flash animation class after it's done
-                            setTimeout(() => {
-                                document.body.classList.remove('green-welcome-mode');
-                            }, 3000);
-                        });
-                    }
-                }
+                });
             });
         });
-    </script>
-
-    <!-- Scroll Animations JS -->
-    <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
     </script>
 </body>
 
