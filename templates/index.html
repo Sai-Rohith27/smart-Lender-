@@ -620,12 +620,20 @@
 
     <!-- Result Popup Logic -->
     <script>
+        // Prevent form resubmission dialog on refresh
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             // Read prediction from the body data attribute
             const resultText = document.body.getAttribute('data-prediction');
             
             // If prediction exists, user just submitted the form. Show prediction popup.
             if (resultText && resultText.trim() !== "None" && resultText.trim() !== "") {
+                // Remove the attribute so it doesn't fire again if the DOM is cached
+                document.body.removeAttribute('data-prediction');
+                
                 let isApproved = resultText.includes("Approved");
 
                 Swal.fire({
