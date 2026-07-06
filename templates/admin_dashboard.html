@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+</head>
+<body>
+
+<h1>Smart Lender</h1>
+
+<h2>Welcome {{ username }}</h2>
+
+<h3>Role : Admin</h3>
+
+<hr>
+
+<h3>Admin Functions</h3>
+
+<a href="{{ url_for('manage_users') }}">
+    <button>Manage Users</button>
+</a>
+
+<button>View Reports</button><br><br>
+
+<button>Prediction History</button><br><br>
+
+<a href="{{ url_for('logout') }}">Logout</a>
+
+</body>
+</html>

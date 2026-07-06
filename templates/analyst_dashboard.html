@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Financial Analyst Dashboard</title>
+</head>
+<body>
+
+<h1>Smart Lender</h1>
+
+<h2>Welcome {{ username }}</h2>
+
+<h3>Role : Financial Analyst</h3>
+
+<hr>
+
+<h3>Analyst Functions</h3>
+
+<button>Reports</button>
+
+<br><br>
+
+<button>Prediction Statistics</button>
+
+<br><br>
+
+<button>Export CSV</button>
+
+<br><br>
+
+<a href="{{ url_for('logout') }}">Logout</a>
+
+</body>
+</html>

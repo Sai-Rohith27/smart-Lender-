@@ -34,6 +34,12 @@
                 <a href="#contact">Contact</a>
             </div>
             <div class="nav-actions">
+                <button onclick="window.location.href='{{ url_for('register') }}'">
+                    Register
+                </button>
+                <a href="{{ url_for('login') }}">
+                    <button type="button">Login</button>
+                </a>
                 <button class="icon-btn"><i class="ph-fill ph-gear-six"></i></button>
                 <a href="#predict" class="btn-primary">Check Eligibility <i class="ph ph-arrow-right"></i></a>
             </div>
@@ -44,6 +50,9 @@
     <section class="hero-section">
         
         <div class="hero-content">
+            <h3>Welcome {{ username }}</h3>
+
+                <a href="{{ url_for('logout') }}">Logout</a>
             <div class="badge">
                 AI-Powered Loan Intelligence
             </div>
