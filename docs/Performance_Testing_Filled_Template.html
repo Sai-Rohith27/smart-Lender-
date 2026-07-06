@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Testing</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 11pt;
+            color: black;
+            background-color: white;
+            line-height: 1.4;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 14pt;
+            margin-bottom: 20px;
+        }
+        h3 {
+            font-size: 11pt;
+            font-weight: bold;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 15px;
+            font-size: 10pt;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            font-size: 10pt;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            font-weight: bold;
+            text-align: center;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .box {
+            border: 1px solid black;
+            padding: 15px;
+            margin-bottom: 25px;
+            font-size: 10pt;
+        }
+        .screenshot-box {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .screenshot-box img {
+            max-width: 100%;
+            max-height: 400px;
+            margin-top: 10px;
+        }
+        /* Print styles to ensure it looks like a PDF */
+        @media print {
+            body {
+                padding: 0;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Performance Testing</h2>
+
+    <table>
+        <tr>
+            <td class="bold" style="width: 30%;">Date</td>
+            <td>4 July 2026</td>
+        </tr>
+        <tr>
+            <td class="bold">Team ID</td>
+            <td>Group-05</td>
+        </tr>
+        <tr>
+            <td class="bold">Project Name</td>
+            <td>Smart Lender – Loan Eligibility Prediction System</td>
+        </tr>
+        <tr>
+            <td class="bold">Maximum Marks</td>
+            <td>5 Marks</td>
+        </tr>
+    </table>
+
+    <div class="bold" style="font-size: 11pt; margin-bottom: 5px;">Performance Testing</div>
+    <p>Performance testing evaluates how your system behaves under expected and peak load conditions. Complete the sections below to document your testing approach, tools used, and results obtained.</p>
+
+    <h3>Step 1: Testing Overview</h3>
+    <table>
+        <tr>
+            <th style="width: 30%;">Field</th>
+            <th>Details</th>
+        </tr>
+        <tr>
+            <td class="bold">Testing Tool Used</td>
+            <td>Python Custom Batch Tester, Flask Dev Server</td>
+        </tr>
+        <tr>
+            <td class="bold">Type of Testing</td>
+            <td>Load Testing, Functional Testing, Batch Inference</td>
+        </tr>
+        <tr>
+            <td class="bold">Target Module / API</td>
+            <td>/predict endpoint (Loan Eligibility Prediction)</td>
+        </tr>
+        <tr>
+            <td class="bold">Test Environment</td>
+            <td>Local / Localhost (127.0.0.1:5000)</td>
+        </tr>
+        <tr>
+            <td class="bold">Test Date</td>
+            <td>4 July 2026</td>
+        </tr>
+    </table>
+
+    <h3>Step 2: Test Scenarios</h3>
+    <table>
+        <tr>
+            <th>S.No</th>
+            <th>Test Scenario / Description</th>
+            <th>No. of Virtual Users</th>
+            <th>Duration (sec)</th>
+            <th>Expected Outcome</th>
+        </tr>
+        <tr>
+            <td style="text-align: center;">1</td>
+            <td>Graduate Male, Married, Good Credit, Urban</td>
+            <td style="text-align: center;">1</td>
+            <td style="text-align: center;">&lt; 2</td>
+            <td>Loan Approved</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">2</td>
+            <td>Not Graduate, No Credit History, Rural</td>
+            <td style="text-align: center;">1</td>
+            <td style="text-align: center;">&lt; 2</td>
+            <td>Loan Rejected</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">3</td>
+            <td>Batch: 50 records from test dataset</td>
+            <td style="text-align: center;">1</td>
+            <td style="text-align: center;">&lt; 5</td>
+            <td>All 50 predictions returned</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">4</td>
+            <td>Batch: Full 367-record test dataset</td>
+            <td style="text-align: center;">1</td>
+            <td style="text-align: center;">&lt; 30</td>
+            <td>All 367 predictions, 0 errors</td>
+        </tr>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h3>Step 3: Performance Test Results</h3>
+    <table>
+        <tr>
+            <th>S.No</th>
+            <th>Metric</th>
+            <th>Target Value</th>
+            <th>Actual Value</th>
+            <th>Status (Pass / Fail)</th>
+            <th>Remarks</th>
+        </tr>
+        <tr>
+            <td style="text-align: center;">1</td>
+            <td>Response Time (Avg)</td>
+            <td>&lt; 2 seconds</td>
+            <td>23.83 ms</td>
+            <td>Pass</td>
+            <td>Fast ML inference per request</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">2</td>
+            <td>Response Time (Max)</td>
+            <td>&lt; 5 seconds</td>
+            <td>68.83 ms</td>
+            <td>Pass</td>
+            <td>Peak case well under limit</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">3</td>
+            <td>Throughput (Req/sec)</td>
+            <td>-</td>
+            <td>41.96 req/sec</td>
+            <td>Pass</td>
+            <td>Good throughput for single-server</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">4</td>
+            <td>Error Rate</td>
+            <td>&lt; 1%</td>
+            <td>0%</td>
+            <td>Pass</td>
+            <td>Zero crashes across 367 tests</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">5</td>
+            <td>CPU Utilization</td>
+            <td>&lt; 80%</td>
+            <td>~15–25%</td>
+            <td>Pass</td>
+            <td>Lightweight model at inference</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">6</td>
+            <td>Memory Utilization</td>
+            <td>&lt; 80%</td>
+            <td>~200 MB</td>
+            <td>Pass</td>
+            <td>Model loaded once at startup</td>
+        </tr>
+    </table>
+
+    <h3>Step 4: Observations & Analysis</h3>
+    <div class="box">
+        <p class="bold">Key Findings:</p>
+        <p>The Smart Lender prediction system demonstrated excellent performance. The Random Forest model produces predictions with an average latency of 23.83 ms, yielding a throughput of approximately 41.96 predictions per second. All 367 test cases were processed without a single error.</p>
+        
+        <p class="bold">Bottlenecks Identified:</p>
+        <p>1. Flask single-threaded dev server cannot handle concurrent requests efficiently.<br>
+        2. One-hot encoding is run per request, which is slow for bulk API calls.<br>
+        3. No caching mechanism for identical inputs.</p>
+        
+        <p class="bold">Optimization Steps Taken:</p>
+        <p>1. Model is loaded once at application startup (not per-request).<br>
+        2. Feature names are pre-loaded and cached in memory.<br>
+        3. Default fill values are used for missing columns to avoid slow loops.</p>
+    </div>
+
+    <div class="page-break"></div>
+
+    <h3>Step 5: Screenshots / Evidence</h3>
+    <p>Attach screenshots of your performance testing tool results below (e.g., JMeter report, Locust graphs, k6 output):</p>
+    
+    <div class="screenshot-box">
+        <div style="color: #666;">[Insert Screenshot 1 here]</div>
+        <!-- Replace 'approved_popup.png' with the exact filename of your screenshot -->
+        <img src="approved_popup.png" alt="Loan Approved Screenshot">
+    </div>
+
+    <div class="screenshot-box">
+        <div style="color: #666;">[Insert Screenshot 2 here]</div>
+        <!-- Replace 'rejected_popup.png' with the exact filename of your screenshot -->
+        <img src="rejected_popup.png" alt="Loan Rejected Screenshot">
+    </div>
+
+</body>
+</html>

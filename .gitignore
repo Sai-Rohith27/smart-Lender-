@@ -1,0 +1,29 @@
+# Python environment
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Databases
+*.sqlite3
+app.db
+instance/
+
+# Flask session/cookies
+.flaskenv
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Backups and temp files
+*~
+*.bak
+*_backup.*
+templates/index_backup.html
+
+# Model checkpoints (optional, uncomment if you don't want to track model weights)
+# models/*.pkl
