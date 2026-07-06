@@ -21,7 +21,9 @@
 
 <button>View Reports</button><br><br>
 
-<button>Prediction History</button><br><br>
+<a href="{{ url_for('all_predictions') }}">
+    <button>View All Predictions</button>
+</a><br><br>
 
 <a href="{{ url_for('logout') }}">Logout</a>
 

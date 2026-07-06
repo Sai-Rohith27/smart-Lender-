@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>All Predictions</title>
+</head>
+
+<body>
+
+<h1>All Loan Predictions</h1>
+
+<table border="1">
+
+<tr>
+    <th>Officer</th>
+    <th>Gender</th>
+    <th>Income</th>
+    <th>Loan Amount</th>
+    <th>Prediction</th>
+    <th>Date</th>
+</tr>
+
+{% for prediction in predictions %}
+
+<tr>
+
+    <td>{{ prediction.user.full_name }}</td>
+
+    <td>{{ prediction.gender }}</td>
+
+    <td>{{ prediction.applicant_income }}</td>
+
+    <td>{{ prediction.loan_amount }}</td>
+
+    <td>{{ prediction.prediction }}</td>
+
+    <td>{{ prediction.prediction_date }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<br>
+
+<a href="{{ url_for('admin_dashboard') }}">
+    <button>Back</button>
+</a>
+
+</body>
+</html>

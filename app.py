@@ -13,7 +13,8 @@ from flask import (
     redirect,
     url_for,
     session,
-    flash
+    flash,
+    send_file
 )
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
@@ -41,6 +42,7 @@ db = SQLAlchemy(app)
 # Load Trained Model and Feature Names
 # ============================================================
 class User(db.Model):
+    
 
     id = db.Column(db.Integer, primary_key=True)
 
@@ -49,7 +51,11 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
 
     password = db.Column(db.String(255), nullable=False)
-
+    predictions = db.relationship(
+    "Prediction",
+    backref="user",
+    lazy=True
+)
     role = db.Column(
         db.String(20),
         default="officer"
@@ -366,8 +372,7 @@ def admin_dashboard():
         return redirect(url_for("login"))
 
     if session["role"] != "admin":
-        flash("Access Denied!")
-        return redirect(url_for("login"))
+        return redirect(url_for("unauthorized"))
 
     return render_template(
         "admin_dashboard.html",
@@ -382,8 +387,7 @@ def officer_dashboard():
         return redirect(url_for("login"))
 
     if session["role"] != "officer":
-        flash("Access Denied!")
-        return redirect(url_for("login"))
+       return redirect(url_for("unauthorized"))
 
     return render_template(
         "officer_dashboard.html",
@@ -391,20 +395,6 @@ def officer_dashboard():
     )
 
 
-@app.route("/analyst")
-def analyst_dashboard():
-
-    if "user_id" not in session:
-        return redirect(url_for("login"))
-
-    if session["role"] != "analyst":
-        flash("Access Denied!")
-        return redirect(url_for("login"))
-
-    return render_template(
-        "analyst_dashboard.html",
-        username=session["user_name"]
-    )
 @app.route("/prediction_history")
 def prediction_history():
 
@@ -434,8 +424,7 @@ def manage_users():
 
     # Allow only admin
     if session["role"] != "admin":
-        flash("Access Denied!")
-        return redirect(url_for("login"))
+        return redirect(url_for("unauthorized"))
 
     # Get all users
     users = User.query.all()
@@ -455,9 +444,7 @@ def delete_user(user_id):
         return redirect(url_for("login"))
 
     if session["role"] != "admin":
-        flash("Access Denied!")
-        return redirect(url_for("login"))
-
+        return redirect(url_for("unauthorized"))
     user = User.query.get_or_404(user_id)
 
     # Prevent deleting admins
@@ -471,6 +458,168 @@ def delete_user(user_id):
     flash("User deleted successfully!")
 
     return redirect(url_for("manage_users"))
+# ============================================================
+# Change User Role
+# ============================================================
+
+@app.route("/change_role/<int:user_id>/<role>")
+def change_role(user_id, role):
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session["role"] != "admin":
+        flash("Access Denied!")
+        return redirect(url_for("login"))
+
+    user = User.query.get_or_404(user_id)
+
+    # Prevent changing another admin's role
+    if user.role == "admin":
+        flash("Admin role cannot be changed.")
+        return redirect(url_for("manage_users"))
+
+    if role in ["officer", "analyst"]:
+        user.role = role
+        db.session.commit()
+        flash("Role updated successfully!")
+
+    return redirect(url_for("manage_users"))
+@app.route("/all_predictions")
+def all_predictions():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session["role"] != "admin":
+       return redirect(url_for("unauthorized"))
+
+    predictions = Prediction.query.order_by(
+        Prediction.prediction_date.desc()
+    ).all()
+
+    return render_template(
+        "all_predictions.html",
+        predictions=predictions
+    )
+# ============================================================
+# Analyst Dashboard
+# ============================================================
+
+@app.route("/analyst_dashboard")
+def analyst_dashboard():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session["role"] != "analyst":
+        return redirect(url_for("unauthorized"))
+
+    total_predictions = Prediction.query.count()
+
+    approved_predictions = Prediction.query.filter_by(
+        prediction="Loan Approved"
+    ).count()
+
+    rejected_predictions = Prediction.query.filter_by(
+        prediction="Loan Rejected"
+    ).count()
+
+    approval_rate = 0
+
+    if total_predictions > 0:
+
+        approval_rate = round(
+            (approved_predictions / total_predictions) * 100,
+            2
+        )
+
+    recent_predictions = Prediction.query.order_by(
+        Prediction.prediction_date.desc()
+    ).limit(5).all()
+
+    return render_template(
+
+        "analyst_dashboard.html",
+
+        total=total_predictions,
+
+        approved=approved_predictions,
+
+        rejected=rejected_predictions,
+
+        approval_rate=approval_rate,
+
+        recent_predictions=recent_predictions
+
+    )
+# ============================================================
+# Export Predictions to CSV
+# ============================================================
+
+@app.route("/export_csv")
+def export_csv():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session["role"] not in ["admin", "analyst"]:
+        flash("Access Denied!")
+        return redirect(url_for("login"))
+
+    predictions = Prediction.query.all()
+
+    data = []
+
+    for prediction in predictions:
+
+        data.append({
+
+            "Officer": prediction.user.full_name if prediction.user else "Unknown",
+
+            "Gender": prediction.gender,
+
+            "Income": prediction.applicant_income,
+
+            "Loan Amount": prediction.loan_amount,
+
+            "Prediction": prediction.prediction,
+
+            "Date": prediction.prediction_date
+
+        })
+
+    df = pd.DataFrame(data)
+
+    file_name = "loan_predictions.csv"
+
+    df.to_csv(file_name, index=False)
+
+    return send_file(
+        file_name,
+        as_attachment=True
+    )
+# ============================================================
+# Privacy Policy
+# ============================================================
+
+@app.route("/privacy")
+def privacy():
+
+    return render_template("privacy.html")
+@app.route("/unauthorized")
+
+def unauthorized():
+
+    return render_template("403.html")
+# ============================================================
+# 404 Error
+# ============================================================
+
+@app.errorhandler(404)
+def page_not_found(error):
+
+    return render_template("404.html"), 404
 if __name__ == "__main__":
     app.run(debug=True)
 
