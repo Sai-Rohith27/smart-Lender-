@@ -1,2 +1,9 @@
+Flask
 Flask-SQLAlchemy
-Flask-Login
+gunicorn
+pandas
+numpy
+scikit-learn
+xgboost
+joblib
+Werkzeug
