@@ -1,72 +1,92 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Analyst Dashboard</title>
-</head>
+{% block title %}Analyst Dashboard | Smart Lender{% endblock %}
 
-<body>
+{% block content %}
+<div class="dashboard-header">
+    <div>
+        <h2>Welcome, {{ username }}</h2>
+        <p>View system-wide prediction statistics and data</p>
+    </div>
+    <div>
+        <div class="badge badge-success" style="background: var(--teal-dim); color: var(--teal); padding: 5px 15px; border-radius: 20px; font-weight: 500;">
+            Role: Analyst
+        </div>
+    </div>
+</div>
 
-<h1>Analyst Dashboard</h1>
+<div class="stats-row" style="margin-bottom: 40px;">
+    <div class="stats-container">
+        <div class="stat-item">
+            <div class="stat-icon bg-blue-dim"><i class="ph-fill ph-files"></i></div>
+            <div class="stat-info">
+                <h4>{{ total }}</h4>
+                <p>Total Predictions</p>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon bg-green-dim"><i class="ph-fill ph-check-circle"></i></div>
+            <div class="stat-info">
+                <h4>{{ approved }}</h4>
+                <p>Approved Loans</p>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon bg-red-dim"><i class="ph-fill ph-x-circle"></i></div>
+            <div class="stat-info">
+                <h4>{{ rejected }}</h4>
+                <p>Rejected Loans</p>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon bg-purple-dim"><i class="ph-fill ph-percent"></i></div>
+            <div class="stat-info">
+                <h4>{{ approval_rate }}%</h4>
+                <p>Approval Rate</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-<h2>Welcome {{ username }}</h2>
-
-<hr>
-
-<h3>Prediction Statistics</h3>
-
-<p><strong>Total Predictions:</strong> {{ total }}</p>
-
-<p><strong>Approved Loans:</strong> {{ approved }}</p>
-
-<p><strong>Rejected Loans:</strong> {{ rejected }}</p>
-
-<p><strong>Approval Rate:</strong> {{ approval_rate }}%</p>
-
-<hr>
-
-<h3>Recent Predictions</h3>
-
-<table border="1">
-
-<tr>
-    <th>Officer</th>
-    <th>Income</th>
-    <th>Loan Amount</th>
-    <th>Prediction</th>
-    <th>Date</th>
-</tr>
-
-{% for prediction in recent_predictions %}
-
-<tr>
-
-    <td>{{ prediction.user.full_name }}</td>
-
-    <td>{{ prediction.applicant_income }}</td>
-
-    <td>{{ prediction.loan_amount }}</td>
-
-    <td>{{ prediction.prediction }}</td>
-
-    <td>{{ prediction.prediction_date }}</td>
-
-
-</tr>
-<br><br>
-
-<a href="{{ url_for('export_csv') }}">
-    <button>📥 Export CSV</button>
-</a>
-{% endfor %}
-
-</table>
-
-<br><br>
-
-<a href="{{ url_for('logout') }}">
-    <button>Logout</button>
-</a>
-
-</body>
-</html>
+<div class="table-container">
+    <div class="table-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="margin: 0;">Recent Predictions</h3>
+        <a href="{{ url_for('export_csv') }}" class="btn-primary" style="padding: 8px 16px;">
+            <i class="ph ph-download-simple"></i> Export CSV
+        </a>
+    </div>
+    
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Officer</th>
+                <th>Income (₹)</th>
+                <th>Loan Amount (k₹)</th>
+                <th>Prediction</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prediction in recent_predictions %}
+            <tr>
+                <td>{{ prediction.user.full_name }}</td>
+                <td>{{ prediction.applicant_income }}</td>
+                <td>{{ prediction.loan_amount }}</td>
+                <td>
+                    {% if "Approved" in prediction.prediction %}
+                        <span class="text-green"><i class="ph-fill ph-check-circle"></i> Approved</span>
+                    {% else %}
+                        <span class="text-red"><i class="ph-fill ph-x-circle"></i> Rejected</span>
+                    {% endif %}
+                </td>
+                <td>{{ prediction.prediction_date.strftime('%Y-%m-%d %H:%M') if prediction.prediction_date else '' }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" style="text-align: center; color: var(--text-muted);">No predictions found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

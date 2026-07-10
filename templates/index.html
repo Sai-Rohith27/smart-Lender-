@@ -1,63 +1,29 @@
-!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Lender | AI Loan Prediction</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- SweetAlert2 for Premium Popups -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Phosphor Icons -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-
-<body data-prediction="{% if prediction_text %}{{ prediction_text }}{% endif %}">
-
-    <!-- Navigation -->
-    <nav class="nav-header">
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <div class="logo-icon"><i class="ph-fill ph-chart-line-up"></i></div>
-                SmartLender
-            </a>
-            <div class="nav-links">
-                <a href="#" class="active">Home</a>
-                <a href="#how-it-works">How It Works</a>
-                <a href="#features">Features</a>
-                <a href="#predict">Apply Now</a>
-                <a href="#team">Team</a>
-                <a href="#faq">FAQ</a>
-                <a href="#contact">Contact</a>
-            </div>
-            <div class="nav-actions">
-               <button onclick="window.location.href='{{ url_for('register') }}'">
-                            Register
-                        </button>
-                <a href="{{ url_for('login') }}">
-                    <button type="button">Login</button>
-                </a>
-                <button class="icon-btn"><i class="ph-fill ph-gear-six"></i></button>
-                <a href="#predict" class="btn-primary">Check Eligibility <i class="ph ph-arrow-right"></i></a>
-            </div>
-        </div>
-    </nav>
+{% block content %}
 
     <!-- Hero Section -->
     <section class="hero-section">
         
         <div class="hero-content">
-            <h3>Welcome {{ username }}</h3>
-
-                <a href="{{ url_for('logout') }}">Logout</a>
             <div class="badge">
                 AI-Powered Loan Intelligence
             </div>
             
-            <h1>Smarter Lending<br>Powered by <span class="text-green">ML</span></h1>
+            <h1 class="welcome-heading">Welcome, <span class="text-green">{{ session.get('user_name', 'User') }}</span>!</h1>
+            
+            <h2 class="animated-heading">
+                Smart Lender helps you 
+                <span class="word-rotator">
+                    <span class="word-rotator-inner">
+                        <span class="word">assess</span>
+                        <span class="word">evaluate</span>
+                        <span class="word">predict</span>
+                        <span class="word">assess</span>
+                    </span>
+                </span>
+                <br>loans in seconds.
+            </h2>
             
             <p class="hero-subtext">
                 Stop guessing. Get a transparent, data-driven loan eligibility<br>
@@ -258,6 +224,25 @@
                     <h2>Applicant Details</h2>
                     <p>Enter the required financial and personal information below.</p>
                 </div>
+
+                {% if prediction_text %}
+                    <div class="prediction-result-box">
+                        <h3>Prediction Result</h3>
+                        {% if "Approved" in prediction_text %}
+                            <div class="badge-result badge-approved">
+                                <i class="ph-fill ph-check-circle"></i> {{ prediction_text }}
+                            </div>
+                        {% elif "Rejected" in prediction_text %}
+                            <div class="badge-result badge-rejected">
+                                <i class="ph-fill ph-x-circle"></i> {{ prediction_text }}
+                            </div>
+                        {% else %}
+                            <div class="badge-result badge-rejected">
+                                <i class="ph-fill ph-warning-circle"></i> {{ prediction_text }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
 
                 <form action="/predict" method="POST" class="loan-form">
 
@@ -584,55 +569,7 @@
                 </form>
             </div>
         </div>
-    </section>
-
-    <!-- Large Footer -->
-    <footer class="large-footer">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <a href="#" class="logo" style="margin-bottom: 16px;">
-                    <div class="logo-icon"><i class="ph-fill ph-chart-line-up"></i></div>
-                    SmartLender
-                </a>
-                <p>Intelligent, fair, and transparent loan eligibility<br>predictions powered by machine learning.</p>
-                <div class="social-links" style="margin-top: 24px;">
-                    <button class="icon-btn-border"><i class="ph-fill ph-github-logo"></i></button>
-                    <button class="icon-btn-border"><i class="ph-fill ph-twitter-logo"></i></button>
-                    <button class="icon-btn-border"><i class="ph-fill ph-x-logo"></i></button>
-                </div>
-            </div>
-            
-            <div class="footer-links">
-                <h4>PRODUCT</h4>
-                <a href="#how-it-works">How It Works</a>
-                <a href="#features">Features</a>
-                <a href="#predict">Apply Now</a>
-                <a href="#faq">FAQ</a>
-            </div>
-            
-            <div class="footer-links">
-                <h4>TECHNOLOGY</h4>
-                <a href="#">Python & Flask</a>
-                <a href="#">Scikit-learn</a>
-                <a href="#">Random Forest</a>
-                <a href="#">Model Training</a>
-            </div>
-            
-            <div class="footer-links">
-                <h4>LEGAL</h4>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Use</a>
-                <a href="#">Disclaimer</a>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>© 2026 Smart Lender. Built for educational purposes. Not a licensed financial service.</p>
-            <p>Made with <i class="ph-fill ph-heart" style="color: var(--text-muted); margin: 0 4px;"></i> and machine learning.</p>
-        </div>
-    </footer>
-
-    <!-- Result Popup Logic -->
+    <!-- Result & FAQ Logic -->
     <script>
         // Prevent form resubmission dialog on refresh
         if (window.history.replaceState) {
@@ -640,39 +577,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            // Read prediction from the body data attribute
-            const resultText = document.body.getAttribute('data-prediction');
-            
-            // If prediction exists, user just submitted the form. Show prediction popup.
-            if (resultText && resultText.trim() !== "None" && resultText.trim() !== "") {
-                // Remove the attribute so it doesn't fire again if the DOM is cached
-                document.body.removeAttribute('data-prediction');
-                
-                let isApproved = resultText.includes("Approved");
-
-                Swal.fire({
-                    title: isApproved ? 'Congratulations!' : 'Application Rejected',
-                    text: resultText,
-                    icon: isApproved ? 'success' : 'error',
-                    background: '#1a1d24',
-                    color: '#fff',
-                    backdrop: isApproved ? 'rgba(0,0,0,0.6) url("https://media.giphy.com/media/nVXzt7FSJlX7W/giphy.gif") center top no-repeat' : 'rgba(0,0,0,0.8)',
-                    customClass: {
-                        popup: 'bento-card',
-                        confirmButton: 'btn-primary'
-                    },
-                    showClass: {
-                        popup: 'animate__animated animate__zoomIn'
-                    },
-                    hideClass: {
-                        popup: 'animate__animated animate__zoomOut'
-                    }
-                }).then(() => {
-                    // Smooth scroll back to form
-                    document.getElementById('predict').scrollIntoView({ behavior: 'smooth' });
-                });
-            } // Restore missing brace
-
             // FAQ Accordion Logic
             const faqItems = document.querySelectorAll('.faq-item');
             faqItems.forEach(item => {
@@ -696,8 +600,11 @@
                     }
                 });
             });
+
+            {% if prediction_text %}
+                // Smooth scroll back to form
+                document.getElementById('predict').scrollIntoView({ behavior: 'smooth' });
+            {% endif %}
         });
     </script>
-</body>
-
-</html>
+{% endblock %}

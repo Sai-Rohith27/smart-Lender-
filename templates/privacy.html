@@ -1,65 +1,34 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Privacy Policy</title>
-</head>
+{% block title %}Privacy Policy | Smart Lender{% endblock %}
 
-<body>
+{% block content %}
+<div class="dashboard-header">
+    <div>
+        <h2>Privacy Policy</h2>
+        <p>How we handle your data</p>
+    </div>
+</div>
 
-<h1>Privacy Policy</h1>
+<div class="table-container" style="padding: 40px; background-color: var(--bg-secondary);">
+    <p>Smart Lender values the privacy of its users.</p>
+    <br>
+    <p>The personal information collected during registration and loan prediction is stored securely in the application database.</p>
+    <br>
+    <p>The collected data is used only for:</p>
+    <ul style="list-style-type: disc; margin-left: 20px; margin-top: 10px; margin-bottom: 20px; color: var(--text-muted);">
+        <li>Loan eligibility prediction</li>
+        <li>User authentication</li>
+        <li>Prediction history</li>
+        <li>Reporting and analytics</li>
+    </ul>
+    
+    <p>Passwords are encrypted before being stored.</p>
+    <br>
+    <p>Smart Lender does not share user information with third parties.</p>
+</div>
 
-<p>
-
-Smart Lender values the privacy of its users.
-
-</p>
-
-<p>
-
-The personal information collected during registration
-and loan prediction is stored securely in the application
-database.
-
-</p>
-
-<p>
-
-The collected data is used only for:
-
-</p>
-
-<ul>
-
-<li>Loan eligibility prediction</li>
-
-<li>User authentication</li>
-
-<li>Prediction history</li>
-
-<li>Reporting and analytics</li>
-
-</ul>
-
-<p>
-
-Passwords are encrypted before being stored.
-
-</p>
-
-<p>
-
-Smart Lender does not share user information
-with third parties.
-
-</p>
-
-<br>
-
-<a href="{{ url_for('home') }}">
-<button>Back Home</button>
-</a>
-
-</body>
-
-</html>
+<div style="text-align: center; margin-top: 20px;">
+    <a href="{{ url_for('home') }}" class="btn-outline">Back Home</a>
+</div>
+{% endblock %}

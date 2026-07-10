@@ -1,52 +1,66 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>All Predictions</title>
-</head>
+{% block title %}All Predictions | Smart Lender{% endblock %}
 
-<body>
+{% block content %}
+<div class="dashboard-header">
+    <div>
+        <h2>All Loan Predictions</h2>
+        <p>System-wide log of all loan eligibility checks</p>
+    </div>
+</div>
 
-<h1>All Loan Predictions</h1>
+<div class="table-container">
+    <div class="table-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="margin: 0;">Comprehensive Log</h3>
+        <a href="{{ url_for('export_csv') }}" class="btn-primary" style="padding: 8px 16px;">
+            <i class="ph ph-download-simple"></i> Export CSV
+        </a>
+    </div>
+    
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Officer</th>
+                <th>Gender</th>
+                <th>Income (₹)</th>
+                <th>Loan Amount (k₹)</th>
+                <th>Prediction</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prediction in predictions %}
+            <tr>
+                <td>{{ prediction.user.full_name if prediction.user else 'Unknown' }}</td>
+                <td>{{ prediction.gender }}</td>
+                <td>{{ prediction.applicant_income }}</td>
+                <td>{{ prediction.loan_amount }}</td>
+                <td>
+                    {% if "Approved" in prediction.prediction %}
+                        <span class="text-green"><i class="ph-fill ph-check-circle"></i> Approved</span>
+                    {% else %}
+                        <span class="text-red"><i class="ph-fill ph-x-circle"></i> Rejected</span>
+                    {% endif %}
+                </td>
+                <td>{{ prediction.prediction_date.strftime('%Y-%m-%d %H:%M') if prediction.prediction_date else '' }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" style="text-align: center; color: var(--text-muted);">No predictions found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
-<table border="1">
-
-<tr>
-    <th>Officer</th>
-    <th>Gender</th>
-    <th>Income</th>
-    <th>Loan Amount</th>
-    <th>Prediction</th>
-    <th>Date</th>
-</tr>
-
-{% for prediction in predictions %}
-
-<tr>
-
-    <td>{{ prediction.user.full_name }}</td>
-
-    <td>{{ prediction.gender }}</td>
-
-    <td>{{ prediction.applicant_income }}</td>
-
-    <td>{{ prediction.loan_amount }}</td>
-
-    <td>{{ prediction.prediction }}</td>
-
-    <td>{{ prediction.prediction_date }}</td>
-
-</tr>
-
-{% endfor %}
-
-</table>
-
-<br>
-
-<a href="{{ url_for('admin_dashboard') }}">
-    <button>Back</button>
-</a>
-
-</body>
-</html>
+<div style="text-align: center; margin-top: 20px;">
+    {% if session.get('role') == 'admin' %}
+        <a href="{{ url_for('admin_dashboard') }}" class="btn-outline">Back to Dashboard</a>
+    {% elif session.get('role') == 'analyst' %}
+        <a href="{{ url_for('analyst_dashboard') }}" class="btn-outline">Back to Dashboard</a>
+    {% else %}
+        <a href="{{ url_for('dashboard') }}" class="btn-outline">Back to Dashboard</a>
+    {% endif %}
+</div>
+{% endblock %}

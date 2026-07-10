@@ -1,65 +1,140 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register | Smart Lender</title>
-</head>
-<body>
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-            <p style="color:green;">{{ message }}</p>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-<h2>Register</h2>
+{% extends "base.html" %}
 
-<form method="POST">
+{% block title %}Register | Smart Lender{% endblock %}
 
-    <input
-        type="text"
-        name="full_name"
-        placeholder="Full Name"
-        required
-    ><br><br>
+{% block content %}
+<div class="split-layout reverse-split">
+    <div class="split-left">
+        <div class="split-left-content">
+            <h2>Join Smart Lender</h2>
+            <p>Create an account to manage predictions, view analytics, and explore our platform.</p>
+            <div class="floating-shapes">
+                <div class="shape shape-4"></div>
+                <div class="shape shape-5"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="split-right">
+        <div class="auth-card no-shadow">
+            <h2>Create Account</h2>
+            <p class="auth-subtitle">Fill in the details below to get started.</p>
+            
+            <form method="POST" action="{{ url_for('register') }}" class="auth-form" onsubmit="return validatePasswordStrength()">
+                <div class="input-group icon-input">
+                    <i class="ph ph-user"></i>
+                    <input type="text" id="full_name" name="full_name" placeholder="Full Name" required>
+                </div>
 
-    <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        required
-    ><br><br>
+                <div class="input-group icon-input">
+                    <i class="ph ph-envelope-simple"></i>
+                    <input type="email" id="email" name="email" placeholder="Email Address" required>
+                </div>
+                
+                <div class="input-group icon-input password-input">
+                    <i class="ph ph-lock-key"></i>
+                    <input type="password" id="password" name="password" placeholder="Password" onkeyup="checkStrength()" required>
+                    <i class="ph ph-eye toggle-password" onclick="togglePassword('password', this)"></i>
+                </div>
+                <div class="password-strength-container" style="display: none;" id="strength-container">
+                    <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+                    <p class="strength-text" id="strength-text">Weak</p>
+                </div>
+                <p class="helper-text">Must be 8+ chars with uppercase, lowercase, number & special char.</p>
+                
+                <div class="input-group icon-input">
+                    <i class="ph ph-identification-card"></i>
+                    <select name="role" id="role" required>
+                        <option value="" disabled selected>Select Role</option>
+                        <option value="admin">Admin</option>
+                        <option value="officer">Credit Officer</option>
+                        <option value="analyst">Financial Analyst</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn-primary" id="register-btn">
+                    Create Account
+                </button>
+            </form>
+            
+            <div class="auth-footer">
+                Already have an account? <a href="{{ url_for('login') }}">Sign In</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        required
-    ><br><br>
-    <br><br>
+<script>
+function togglePassword(inputId, icon) {
+    const input = document.getElementById(inputId);
+    if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove("ph-eye");
+        icon.classList.add("ph-eye-slash");
+    } else {
+        input.type = "password";
+        icon.classList.remove("ph-eye-slash");
+        icon.classList.add("ph-eye");
+    }
+}
 
-<label>Select Role</label>
+// Redirect to login if registration was successful
+document.addEventListener("DOMContentLoaded", function() {
+    const flashMessages = document.querySelectorAll('.flash-info, .flash-success');
+    flashMessages.forEach(msg => {
+        if (msg.textContent.includes("Registration successful")) {
+            setTimeout(() => {
+                window.location.href = "{{ url_for('login') }}";
+            }, 1500); // Wait 1.5 seconds so they can read the success message
+        }
+    });
+});
 
-<select name="role" required>
+function checkStrength() {
+    const password = document.getElementById('password').value;
+    const container = document.getElementById('strength-container');
+    const fill = document.getElementById('strength-fill');
+    const text = document.getElementById('strength-text');
+    
+    if (password.length > 0) {
+        container.style.display = 'block';
+    } else {
+        container.style.display = 'none';
+        return;
+    }
 
-    <option value="admin">Admin</option>
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[a-z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
 
-    <option value="officer">Credit Officer</option>
+    fill.className = 'strength-fill';
+    
+    if (strength <= 2) {
+        fill.classList.add('weak');
+        text.textContent = 'Weak';
+        fill.style.width = '33%';
+    } else if (strength <= 4) {
+        fill.classList.add('medium');
+        text.textContent = 'Medium';
+        fill.style.width = '66%';
+    } else {
+        fill.classList.add('strong');
+        text.textContent = 'Strong';
+        fill.style.width = '100%';
+    }
+}
 
-    <option value="analyst">Financial Analyst</option>
-
-</select>
-
-<br><br>
-    <button type="submit">
-        Register
-    </button>
-
-</form>
-
-<p>
-Already have an account?
-<a href="/login">Login</a>
-</p>
-
-</body>
-</html>
+function validatePasswordStrength() {
+    const password = document.getElementById('password').value;
+    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+    if (!pattern.test(password)) {
+        alert("Password does not meet the strict security requirements.");
+        return false;
+    }
+    return true;
+}
+</script>
+{% endblock %}

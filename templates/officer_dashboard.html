@@ -1,33 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Credit Officer Dashboard</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<h1>Smart Lender</h1>
+{% block title %}Credit Officer Dashboard | Smart Lender{% endblock %}
 
-<h2>Welcome {{ username }}</h2>
+{% block content %}
+<div class="dashboard-header">
+    <div>
+        <h2>Welcome, {{ username }}</h2>
+        <p>Run loan predictions and track your history</p>
+    </div>
+    <div>
+        <div class="badge badge-success" style="background: var(--blue-dim); color: var(--blue); padding: 5px 15px; border-radius: 20px; font-weight: 500;">
+            Role: Credit Officer
+        </div>
+    </div>
+</div>
 
-<h3>Role : Credit Officer</h3>
+<div class="dashboard-grid" style="max-width: 700px;">
+    <a href="{{ url_for('home') }}#predict" class="dashboard-card">
+        <i class="ph ph-lightning" style="color: var(--primary);"></i>
+        <h3>New Loan Prediction</h3>
+        <p>Check a new applicant's eligibility</p>
+    </a>
 
-<hr>
-
-<h3>Officer Functions</h3>
-
-<a href="{{ url_for('home') }}">
-    <button>Loan Prediction</button>
-</a>
-
-<br><br>
-
-<a href="{{ url_for('prediction_history') }}">
-    <button>My Prediction History</button>
-</a>
-
-<br><br>
-
-<a href="{{ url_for('logout') }}">Logout</a>
-
-</body>
-</html>
+    <a href="{{ url_for('prediction_history') }}" class="dashboard-card">
+        <i class="ph ph-clock-counter-clockwise" style="color: var(--purple);"></i>
+        <h3>My Prediction History</h3>
+        <p>View your past prediction results</p>
+    </a>
+</div>
+{% endblock %}

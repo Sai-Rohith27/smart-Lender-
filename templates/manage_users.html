@@ -1,92 +1,77 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Manage Users</title>
-</head>
+{% block title %}Manage Users | Smart Lender{% endblock %}
 
-<body>
+{% block content %}
+<div class="dashboard-header">
+    <div>
+        <h2>Manage Users</h2>
+        <p>Administer user roles and access</p>
+    </div>
+</div>
 
-<h1>Manage Users</h1>
+<div class="table-container">
+    <div class="table-header">
+        <h3 style="margin: 0;">User Accounts</h3>
+    </div>
+    
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.full_name }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <span class="badge-result 
+                        {% if user.role == 'admin' %}badge-approved
+                        {% elif user.role == 'officer' %}badge-rejected
+                        {% else %}badge-approved{% endif %}" 
+                        style="{% if user.role == 'admin' %}background: var(--purple-dim); color: var(--purple); border-color: var(--purple);{% elif user.role == 'analyst' %}background: var(--teal-dim); color: var(--teal); border-color: var(--teal);{% else %}background: var(--blue-dim); color: var(--blue); border-color: var(--blue);{% endif %} padding: 5px 12px; font-size: 0.85rem;">
+                        {{ user.role | capitalize }}
+                    </span>
+                </td>
+                <td>
+                    {% if user.role != "admin" %}
+                        <div style="display: flex; gap: 8px;">
+                            {% if user.role == "officer" %}
+                                <a href="{{ url_for('change_role', user_id=user.id, role='analyst') }}" class="btn-outline" style="padding: 6px 12px; font-size: 0.85rem;">
+                                    Make Analyst
+                                </a>
+                            {% elif user.role == "analyst" %}
+                                <a href="{{ url_for('change_role', user_id=user.id, role='officer') }}" class="btn-outline" style="padding: 6px 12px; font-size: 0.85rem;">
+                                    Make Officer
+                                </a>
+                            {% endif %}
+                            
+                            <a href="{{ url_for('delete_user', user_id=user.id) }}" class="btn-primary" style="padding: 6px 12px; font-size: 0.85rem; background: var(--red); color: white; border: none;" onclick="return confirm('Are you sure you want to delete this user?');">
+                                Delete
+                            </a>
+                        </div>
+                    {% else %}
+                        <span style="color: var(--text-muted); font-size: 0.85rem;">No actions</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" style="text-align: center; color: var(--text-muted);">No users found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
-<table border="1">
-
-<tr>
-
-    <th>ID</th>
-
-    <th>Full Name</th>
-
-    <th>Email</th>
-
-   <th>Role</th>
-   <th>Action</th>
-<th>Change Role</th>
-
-</tr>
-
-{% for user in users %}
-
-<tr>
-
-    <td>{{ user.id }}</td>
-
-    <td>{{ user.full_name }}</td>
-
-    <td>{{ user.email }}</td>
-
-    <td>{{ user.role }}</td>
-
-<td>
-
-{% if user.role != "admin" %}
-
-<a href="{{ url_for('delete_user', user_id=user.id) }}"
-   onclick="return confirm('Are you sure you want to delete this user?');">
-    <button>Delete</button>
-</a>
-
-{% if user.role == "officer" %}
-
-<a href="{{ url_for('change_role', user_id=user.id, role='analyst') }}">
-    <button>Make Analyst</button>
-</a>
-
-{% elif user.role == "analyst" %}
-
-<a href="{{ url_for('change_role', user_id=user.id, role='officer') }}">
-    <button>Make Officer</button>
-</a>
-
-{% else %}
-
-Admin
-
-{% endif %}
-
-</td>
-</a>
-
-{% else %}
-
-Admin
-
-{% endif %}
-
-</td>
-
-</tr>
-
-{% endfor %}
-
-</table>
-
-<br>
-
-<a href="{{ url_for('admin_dashboard') }}">
-    <button>Back</button>
-</a>
-
-</body>
-
-</html>
+<div style="text-align: center; margin-top: 20px;">
+    <a href="{{ url_for('admin_dashboard') }}" class="btn-outline">Back to Dashboard</a>
+</div>
+{% endblock %}

@@ -1,47 +1,59 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Prediction History</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<h1>My Prediction History</h1>
+{% block title %}My Prediction History | Smart Lender{% endblock %}
 
-<table border="1">
+{% block content %}
+<div class="dashboard-header">
+    <div>
+        <h2>My Prediction History</h2>
+        <p>A log of all loan eligibility checks you have performed</p>
+    </div>
+</div>
 
-<tr>
-    <th>Date</th>
-    <th>Gender</th>
-    <th>Income</th>
-    <th>Loan Amount</th>
-    <th>Prediction</th>
-</tr>
+<div class="table-container">
+    <div class="table-header">
+        <h3 style="margin: 0;">History Log</h3>
+    </div>
+    
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Gender</th>
+                <th>Income (₹)</th>
+                <th>Loan Amount (k₹)</th>
+                <th>Prediction</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prediction in predictions %}
+            <tr>
+                <td>{{ prediction.prediction_date.strftime('%Y-%m-%d %H:%M') if prediction.prediction_date else '' }}</td>
+                <td>{{ prediction.gender }}</td>
+                <td>{{ prediction.applicant_income }}</td>
+                <td>{{ prediction.loan_amount }}</td>
+                <td>
+                    {% if "Approved" in prediction.prediction %}
+                        <span class="text-green"><i class="ph-fill ph-check-circle"></i> Approved</span>
+                    {% else %}
+                        <span class="text-red"><i class="ph-fill ph-x-circle"></i> Rejected</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" style="text-align: center; color: var(--text-muted);">No predictions found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
-{% for prediction in predictions %}
-
-<tr>
-
-    <td>{{ prediction.prediction_date }}</td>
-
-    <td>{{ prediction.gender }}</td>
-
-    <td>{{ prediction.applicant_income }}</td>
-
-    <td>{{ prediction.loan_amount }}</td>
-
-    <td>{{ prediction.prediction }}</td>
-
-</tr>
-
-{% endfor %}
-
-</table>
-
-<br>
-
-<a href="{{ url_for('officer_dashboard') }}">
-    <button>Back</button>
-</a>
-
-</body>
-</html>
+<div style="text-align: center; margin-top: 20px;">
+    {% if session.get('role') == 'officer' %}
+        <a href="{{ url_for('officer_dashboard') }}" class="btn-outline">Back to Dashboard</a>
+    {% else %}
+        <a href="{{ url_for('dashboard') }}" class="btn-outline">Back to Dashboard</a>
+    {% endif %}
+</div>
+{% endblock %}
